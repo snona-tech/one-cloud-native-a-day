@@ -1,0 +1,13 @@
+landscape:
+  - category:
+    name: Dummy Category
+    subcategories:
+      - subcategory:
+        name: Dummy Subcategory
+        items:
+          - item:
+            name: Dummy
+            homepage_url: https://dummy.com
+            project: sandbox
+            repo_url: https://github.com/project/repository
+            logo: dummy.svg
