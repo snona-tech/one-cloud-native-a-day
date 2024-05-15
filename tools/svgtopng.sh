@@ -7,6 +7,8 @@ rm -rf tools/landscape/.git
 
 sed -i 's/<?xml version="1.0" encoding="utf-16"?>/<?xml version="1.0" encoding="utf-8"?>/g' tools/landscape/hosted_logos/american-express.svg
 
+sed -i '/metadata/,/metadata/d' tools/landscape/hosted_logos/Seldon_idWf-VLClV_10.svg
+
 docker run --rm -it \
   -v ${PWD}/tools/landscape/hosted_logos:/hosted_logos \
   -v ${PWD}/tools/png:/png \
