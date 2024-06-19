@@ -13,7 +13,7 @@ docker run --rm -it \
   -v ${PWD}/tools/landscape/hosted_logos:/hosted_logos \
   -v ${PWD}/tools/png:/png \
   vulhub/librsvg:2.50.7 \
-  bash -c 'ls hosted_logos/ | xargs -I{} -P 3 -n 1 rsvg-convert hosted_logos/{} -o png/{}.png'
+  bash -c 'apt-get update;apt-get install -y pngquant;ls hosted_logos/ | xargs -I{} -P 3 -n 1 rsvg-convert hosted_logos/{} -o png/{}.png;pngquant --ext .png --force --speed 1 png/*.png'
 
 echo "SVG 数：$(ls tools/landscape/hosted_logos | wc -l)"
 echo "PNG 数：$(ls tools/png | wc -l)"
