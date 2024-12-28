@@ -27,6 +27,9 @@ LOG_LEVEL = os.environ.get("LOG_LEVEL")
 VALID_CHARS = re.compile(r"[a-z0-9\-\ ]")
 MULTIPLE_HYPHENS = re.compile(r"-{2,}")
 CRUNCHBASE_API_KEY = os.environ.get("CRUNCHBASE_API_KEY")
+ORIGINAL_HOLIDAYS = [
+    e for e in os.environ.get("ORIGINAL_HOLIDAYS", "").split(",") if not e == ""
+]
 
 logger = getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
@@ -39,6 +42,19 @@ handler.setFormatter(
 )
 logger.addHandler(handler)
 logger.propagate = False
+
+
+class OriginalHoliday(jpholiday.OriginalHoliday):
+    def _is_holiday(self, date):
+        if date in [datetime.strptime(holiday, '%Y-%m-%d').date() for holiday in ORIGINAL_HOLIDAYS]:
+            return True
+        return False
+
+    def _is_holiday_name(self, date):
+        if date.strftime('%Y-%m-%d') in ORIGINAL_HOLIDAYS:
+            return '独自休暇'
+        else:
+            return None
 
 
 def send_slack_message(title: str, message_blocks: Sequence[Dict]):
