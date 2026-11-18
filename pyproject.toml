@@ -1,0 +1,25 @@
+[project]
+name = "one-cloud-native-a-day"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "casa-snona", email = "s_nonaka@casareal.co.jp" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "googletrans>=4.0.0rc1",
+    "jpholiday>=0.1.8",
+    "python-dotenv>=1.0.1",
+    "pyyaml>=6.0.1",
+    "requests>=2.31.0",
+    "setuptools>=69.0.3",
+    "slack-sdk>=3.27.0",
+]
+
+[project.scripts]
+one-cloud-native-a-day = "one_cloud_native_a_day:main"
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14.0"]
+build-backend = "uv_build"

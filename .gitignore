@@ -1,6 +1,6 @@
 tools/landscape
 tools/png
-.env
+src/.env
 dist
 lambda.zip
 __pycache__
