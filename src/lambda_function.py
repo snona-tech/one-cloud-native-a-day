@@ -8,12 +8,12 @@ from logging import Formatter, StreamHandler, getLogger
 from typing import Optional, Sequence
 from zoneinfo import ZoneInfo
 
-import jpholiday
 import requests
 import setuptools
 import yaml
 from dotenv import load_dotenv
 from googletrans import Translator
+from jpholiday import JPHoliday, OriginalHolidayCheckerInterface
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 
@@ -43,14 +43,15 @@ handler.setFormatter(
 logger.addHandler(handler)
 logger.propagate = False
 
+jph = JPHoliday()
 
-class OriginalHoliday(jpholiday.OriginalHoliday):
-    def _is_holiday(self, date):
+class OriginalHoliday(OriginalHolidayCheckerInterface):
+    def is_holiday(self, date):
         if date in [datetime.strptime(holiday, '%Y-%m-%d').date() for holiday in ORIGINAL_HOLIDAYS]:
             return True
         return False
 
-    def _is_holiday_name(self, date):
+    def is_holiday_name(self, date):
         if date.strftime('%Y-%m-%d') in ORIGINAL_HOLIDAYS:
             return '独自休暇'
         else:
@@ -283,8 +284,8 @@ def build_message(landscape_item: LandscapeItem) -> Sequence[Dict]:
 
 def main():
 
-    if WORKDAY_ONLY and jpholiday.is_holiday(TODAY):
-        raise Exception(f"{TODAY} {jpholiday.is_holiday_name(TODAY)}")
+    if WORKDAY_ONLY and jph.is_holiday(TODAY):
+        raise Exception(f"{TODAY} {jph.is_holiday_name(TODAY)}")
 
     if WORKDAY_ONLY and (WEEKDAY == 5 or WEEKDAY == 6):
         raise Exception(f"{TODAY} 土日")
