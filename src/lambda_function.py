@@ -1,3 +1,4 @@
+import asyncio
 import json
 import os
 import random
@@ -118,6 +119,12 @@ class LandscapeItem:
         setattr(self, field_name, value)
 
 
+async def translate_text(text):
+    async with Translator() as translator:
+        result = await translator.translate(text, dest="ja")
+        return result.text
+
+
 def random_pickup_item(landscape_yaml) -> LandscapeItem:
     landscape_item = LandscapeItem()
 
@@ -157,9 +164,9 @@ def random_pickup_item(landscape_yaml) -> LandscapeItem:
 
     if landscape_item.description != "-":
         try:
-            translator = Translator()
-            translated = translator.translate(landscape_item.description, dest="ja")
-            landscape_item.translated_description = translated.text
+            landscape_item.translated_description = asyncio.run(
+                translate_text(landscape_item.description)
+            )
         except Exception as e:
             logger.error(e)
 
