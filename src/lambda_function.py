@@ -46,15 +46,19 @@ logger.propagate = False
 
 jph = JPHoliday()
 
+
 class OriginalHoliday(OriginalHolidayCheckerInterface):
     def is_holiday(self, date):
-        if date in [datetime.strptime(holiday, '%Y-%m-%d').date() for holiday in ORIGINAL_HOLIDAYS]:
+        if date in [
+            datetime.strptime(holiday, "%Y-%m-%d").date()
+            for holiday in ORIGINAL_HOLIDAYS
+        ]:
             return True
         return False
 
     def is_holiday_name(self, date):
-        if date.strftime('%Y-%m-%d') in ORIGINAL_HOLIDAYS:
-            return '独自休暇'
+        if date.strftime("%Y-%m-%d") in ORIGINAL_HOLIDAYS:
+            return "独自休暇"
         else:
             return None
 
